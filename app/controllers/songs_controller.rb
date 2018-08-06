@@ -4,17 +4,10 @@ class SongsController < ApplicationController
   def upload
     CSV.foreach(params[:songs].path, header: true) do |song|
       artist = Artist.find_or_create_by(name: song[1])
-      Song.create()
-
+      Song.create(title: params[0], artist_id: artist.id)
+    end
+    redirect_to songs_path
   end
-
-  t.string   "name"
-
-create_table "songs", force: :cascade do |t|
-  t.string   "title"
-  t.datetime "created_at", null: false
-  t.datetime "updated_at", null: false
-  t.integer  "artist_id"
 
   def index
     @songs = Song.all
